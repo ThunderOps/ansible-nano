@@ -1,6 +1,6 @@
 ## Ansible Role for setting up a Raiblocks Node
 
-Ansible role to setup a Centos 7 VM from scratch as a Raiblocks node with RPC enabled. Runs locally in Docker too.
+Sets up a Centos 7 VM from scratch as a Raiblocks node with RPC enabled. Runs locally in Docker too for dev.
 
 Automates the steps shown here: https://github.com/clemahieu/raiblocks/wiki/Running-rai_node-as-a-service
 
