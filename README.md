@@ -12,7 +12,7 @@ Once `make` has been run you can execute RPC commands against your local Docker 
 curl -d '{ "action" : "version" }' localhost:7076
 ```
 
-More PRC commands found here: https://github.com/clemahieu/raiblocks/wiki/RPC-protocol
+More RPC commands found here: https://github.com/clemahieu/raiblocks/wiki/RPC-protocol
 
 Currently this playbook downloads Boost and Raiblocks from Github and builds from source so it can be quite slow when first run.
 
