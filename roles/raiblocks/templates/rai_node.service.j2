@@ -1,0 +1,13 @@
+[Unit]
+Description=RaiBlocks node service
+After=network.target
+
+[Service]
+LimitNOFILE=65535
+ExecStart={{ rai_node_install_dir }}/rai_node --daemon --data_path={{ rai_node_data_dir }}
+
+SyslogIdentifier=rai_node
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

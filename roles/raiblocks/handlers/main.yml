@@ -1,0 +1,9 @@
+---
+
+- name: reload systemd
+  command: systemctl daemon-reload
+
+- name: restart rai_node
+  service:
+    name: rai_node
+    state: restarted

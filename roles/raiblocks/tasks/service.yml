@@ -1,0 +1,31 @@
+---
+
+- name: create the raiblocks group
+  group:
+    name: "raiblocks"
+    state: present
+    system: yes
+
+- name: create the raiblocks user
+  user:
+    name: "raiblocks"
+    groups: "raiblocks"
+    shell: /sbin/nologin
+    createhome: no
+
+- name: copy the rai_node systemd service file
+  template:
+    src: rai_node.service.j2
+    dest: /etc/systemd/system/rai_node.service
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - reload systemd
+    - restart rai_node
+
+- name: ensure rai_node is started and enabled on boot
+  service:
+    name: rai_node
+    state: started
+    enabled: yes

@@ -1,0 +1,18 @@
+---
+
+boost_work_dir: '/tmp/boost'
+boost_version: '1.66.0'
+boost_build_dir: 'boost_{{ boost_version.replace(".", "_") }}'
+boost_tar_name: '{{ boost_build_dir }}.tar.gz'
+boost_prefix: '/usr/local/boost'
+boost_md5: 'd275cd85b00022313c171f602db59fc5'
+
+rai_node_work_dir: '/tmp/rai_build'
+raiblocks_version: '43ac26a100796de6e299901c21923e4dc89f914c'
+rai_node_install_dir: '/usr/local/bin'
+rai_node_data_dir: '/var/rai_node'
+
+# Paste the string after id= in the gdrive get sharing link
+# From: https://drive.google.com/drive/folders/1sP1z9S011f1W_0nK1KJ-UCJbjaNmk8GQ
+raiblocks_db_file_id: '1Q2zut3ebg7EXGS61JYt5tFgYvsNMS22-'  # RaiBlocks_64_2018_01_13_12.7z
+raiblocks_db_md5: 'afb033869c8385235037aa9c187bfcd5'

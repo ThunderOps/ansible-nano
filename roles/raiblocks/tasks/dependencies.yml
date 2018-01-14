@@ -1,0 +1,71 @@
+---
+
+- name: Install EPEL
+  yum:
+    name: epel-release
+    state: present
+
+- name: Install yum packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - cmake
+    - python-devel
+    - python2-pip
+    - gcc
+    - gcc-c++
+    - libstdc++-static
+    - kernel-devel
+    - bzip2-devel
+    - curl
+    - wget
+    - p7zip
+
+- name: Pip update pip
+  pip:
+    name: pip
+    state: latest
+
+- name: Install pip packages
+  pip:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - requests
+
+- name: Copy google_drive.py to /usr/local/bin
+  copy:
+    src: google_drive.py
+    dest: /usr/local/bin/google_drive.py
+    mode: a+x
+
+- name: Create work directory
+  file:
+    path: "{{ boost_work_dir }}"
+    state: directory
+
+- name: Create install directory
+  file:
+    path: "{{ boost_prefix }}"
+    state: directory
+
+- stat:
+    path: "{{ boost_work_dir }}/{{ boost_tar_name }}"
+  register: boost_tar
+
+- name: Get boost source
+  command: wget -O {{ boost_work_dir }}/{{ boost_tar_name }} http://sourceforge.net/projects/boost/files/boost/{{ boost_version }}/{{ boost_tar_name }}/download?use_mirror=10gbps-io
+  when: boost_tar.stat.md5 is not defined or boost_tar.stat.md5 != boost_md5
+
+- name: Unpack tarball
+  command: /bin/tar xfv {{ boost_work_dir }}/{{ boost_tar_name }} -C {{ boost_work_dir }}
+
+- name: Bootstrap Boost
+  command: chdir={{ boost_work_dir }}/{{ boost_build_dir }} ./bootstrap.sh --prefix={{ boost_prefix }}
+
+- name: Make Boost
+  command: chdir={{ boost_work_dir }}/{{ boost_build_dir }} ./b2
+
+- name: Install Boost
+  command: chdir={{ boost_work_dir }}/{{ boost_build_dir }} ./b2 install

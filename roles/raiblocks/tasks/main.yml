@@ -1,0 +1,13 @@
+---
+
+- name: Install all pre-requisite dependencies
+  import_tasks: dependencies.yml
+
+- name: Build boost and rai_node
+  import_tasks: build.yml
+
+- name: Download and install a database snapshot
+  import_tasks: db.yml
+
+- name: Install and start rai_node SystemD service
+  import_tasks: service.yml

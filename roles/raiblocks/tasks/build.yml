@@ -1,0 +1,59 @@
+---
+
+- name: Create work directory
+  file:
+    path: "{{ rai_node_work_dir }}"
+    state: directory
+
+- name: Clone raiblocks repo
+  git:
+    repo: 'https://github.com/clemahieu/raiblocks.git'
+    dest: "{{ rai_node_work_dir }}"
+    version: "{{ raiblocks_version }}"
+    force: yes
+
+- name: Run raiblocks cmake
+  command: chdir={{ rai_node_work_dir }} cmake -DBOOST_ROOT=/usr/local/boost -G "Unix Makefiles"
+
+- name: Run raiblocks make
+  command: chdir={{ rai_node_work_dir }} make rai_node
+
+- name: Create rai_node data directory
+  file:
+    path: "{{ rai_node_data_dir }}"
+    state: directory
+
+- name: Copy rai_node binary into /usr/local/bin
+  copy:
+    src: "{{ rai_node_work_dir }}/rai_node"
+    dest: "{{ rai_node_install_dir }}/rai_node"
+    mode: a+x
+
+- stat:
+    path: "{{ rai_node_data_dir }}/config.json"
+  register: rai_config
+
+- name: Run raiblocks for 5 seconds to initialise
+  command: chdir={{ rai_node_work_dir }} {{rai_node_install_dir}}/rai_node --daemon --data_path="{{ rai_node_data_dir }}" & PID=$!; sleep 5; kill $PID
+  when: rai_config.stat.exists != True
+
+- name: Replace RPC address in config.json for all interfaces
+  lineinfile:
+    path: "{{ rai_node_data_dir }}/config.json"
+    regexp: '"address": "::1",'
+    line: '"address": "::ffff:0.0.0.0",'
+    backrefs: yes
+
+- name: Enable RPC in config.json
+  lineinfile:
+    path: "{{ rai_node_data_dir }}/config.json"
+    regexp: '"rpc_enable": "false",'
+    line: '"rpc_enable": "true",'
+    backrefs: yes
+
+- name: Enable control in config.json
+  lineinfile:
+    path: "{{ rai_node_data_dir }}/config.json"
+    regexp: '"enable_control": "false",'
+    line: '"enable_control": "true",'
+    backrefs: yes
