@@ -6,7 +6,7 @@
 
 - name: Get raiblocks db snapshot
   command: /usr/local/bin/google_drive.py {{ raiblocks_db_file_id }} {{ rai_node_data_dir }}/db.7z
-  when: db_tar.stat.md5 is not defined or db_tar.stat.md5 != raiblocks_db_md5
+  when: db_tar.stat.checksum is not defined or db_tar.stat.checksum != raiblocks_db_sha1
 
 - name: Decompress db
   command: chdir={{ rai_node_data_dir }} /usr/bin/7za x db.7z -y

@@ -14,5 +14,5 @@ rai_node_data_dir: '/var/rai_node'
 
 # Paste the string after id= in the gdrive get sharing link
 # From: https://drive.google.com/drive/folders/1sP1z9S011f1W_0nK1KJ-UCJbjaNmk8GQ
-raiblocks_db_file_id: '1Q2zut3ebg7EXGS61JYt5tFgYvsNMS22-'  # RaiBlocks_64_2018_01_13_12.7z
-raiblocks_db_md5: 'afb033869c8385235037aa9c187bfcd5'
+raiblocks_db_file_id: '1LE0zofs2ZKV7nzle0UHfGZXxiuAJxvWM'  # RaiBlocks_64_2018_01_15_06.7z
+raiblocks_db_sha1: '2AD53D2BC8126D8252009CCB4AD11A3E52FB0D84'
